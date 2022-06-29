@@ -276,12 +276,9 @@ class TypeAheadFormField<T> extends FormField<String> {
       SuggestionsBoxDecoration suggestionsBoxDecoration:
           const SuggestionsBoxDecoration(),
       SuggestionsBoxController? suggestionsBoxController,
-      required
-          SuggestionSelectionCallback<T> onSuggestionSelected,
-      required
-          ItemBuilder<T> itemBuilder,
-      required
-          SuggestionsCallback<T> suggestionsCallback,
+      required SuggestionSelectionCallback<T> onSuggestionSelected,
+      required ItemBuilder<T> itemBuilder,
+      required SuggestionsCallback<T> suggestionsCallback,
       double suggestionsBoxVerticalOffset: 5.0,
       this.textFieldConfiguration: const TextFieldConfiguration(),
       AnimationTransitionBuilder? transitionBuilder,
@@ -307,7 +304,8 @@ class TypeAheadFormField<T> extends FormField<String> {
             enabled: enabled,
             autovalidateMode: autovalidateMode,
             builder: (FormFieldState<String> field) {
-              final _TypeAheadFormFieldState state = field as _TypeAheadFormFieldState<dynamic>;
+              final _TypeAheadFormFieldState state =
+                  field as _TypeAheadFormFieldState<dynamic>;
 
               return TypeAheadField(
                 getImmediateSuggestions: getImmediateSuggestions,
@@ -696,17 +694,7 @@ class TypeAheadField<T> extends StatefulWidget {
       this.keepSuggestionsOnLoading: true,
       this.keepSuggestionsOnSuggestionSelected: false,
       this.autoFlipDirection: false})
-      : assert(suggestionsCallback != null),
-        assert(itemBuilder != null),
-        assert(onSuggestionSelected != null),
-        assert(animationStart != null &&
-            animationStart >= 0.0 &&
-            animationStart <= 1.0),
-        assert(animationDuration != null),
-        assert(debounceDuration != null),
-        assert(textFieldConfiguration != null),
-        assert(suggestionsBoxDecoration != null),
-        assert(suggestionsBoxVerticalOffset != null),
+      : assert(animationStart >= 0.0 && animationStart <= 1.0),
         assert(
             direction == AxisDirection.down || direction == AxisDirection.up),
         super(key: key);
@@ -1068,7 +1056,8 @@ class _SuggestionsListState<T> extends State<_SuggestionsList<T>>
       this._activeCallbackIdentity = callbackIdentity;
 
       try {
-        suggestions = await widget.suggestionsCallback!(widget.controller!.text);
+        suggestions =
+            await widget.suggestionsCallback!(widget.controller!.text);
       } catch (e) {
         error = e;
       }
@@ -1080,7 +1069,7 @@ class _SuggestionsListState<T> extends State<_SuggestionsList<T>>
         // if it wasn't removed in the meantime
         setState(() {
           double? animationStart = widget.animationStart;
-          if (error != null || suggestions == null || suggestions.isEmpty) {
+          if (error != null || suggestions.isEmpty) {
             animationStart = 1.0;
           }
           this._animationController!.forward(from: animationStart);
@@ -1134,7 +1123,8 @@ class _SuggestionsListState<T> extends State<_SuggestionsList<T>>
         : SizeTransition(
             axisAlignment: -1.0,
             sizeFactor: CurvedAnimation(
-                parent: this._animationController!, curve: Curves.fastOutSlowIn),
+                parent: this._animationController!,
+                curve: Curves.fastOutSlowIn),
             child: child,
           );
 
@@ -1290,9 +1280,7 @@ class SuggestionsBoxDecoration {
       this.borderRadius,
       this.shadowColor: const Color(0xFF000000),
       this.constraints,
-      this.offsetX: 0.0})
-      : assert(shadowColor != null),
-        assert(elevation != null);
+      this.offsetX: 0.0});
 }
 
 /// Supply an instance of this class to the [TypeAhead.textFieldConfiguration]
@@ -1713,9 +1701,8 @@ class _SuggestionsBox {
       double textBoxAbsY) {
     // unsafe area, ie: iPhone X 'home button'
     // keyboardHeight includes unsafeAreaHeight, if keyboard is showing, set to 0
-    double unsafeAreaHeight = keyboardHeight == 0 && rootMediaQuery != null
-        ? rootMediaQuery.data.padding.bottom
-        : 0;
+    double unsafeAreaHeight =
+        keyboardHeight == 0 ? rootMediaQuery.data.padding.bottom : 0;
 
     return windowHeight -
         keyboardHeight -
