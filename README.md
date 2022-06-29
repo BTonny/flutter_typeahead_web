@@ -2,7 +2,7 @@
 
 # Flutter TypeAhead
 A TypeAhead (autocomplete) widget for Flutter, where you can show suggestions to
-users as they type
+users as they type for flutter web.
 
 <img src="https://raw.githubusercontent.com/AbdulRahmanAlHamali/flutter_typeahead/master/flutter_typeahead.gif">
 
@@ -24,12 +24,7 @@ See the [installation instructions on pub](https://pub.dartlang.org/packages/flu
 ## Usage examples
 You can import the package with:
 ```dart
-import 'package:flutter_typeahead/flutter_typeahead.dart';
-```
-
-For Cupertino users import:
-```dart
-import 'package:flutter_typeahead/cupertino_flutter_typeahead.dart';
+import 'package:flutter_typeahead_web/flutter_typeahead.dart';
 ```
 
 Use it as follows:
@@ -158,9 +153,6 @@ The `transitionBuilder` allows us to customize the animation of the
 suggestion box. In this example, we are returning the suggestionsBox
 immediately, meaning that we don't want any animation.
 
-### Cupertino Example:
-Please see the Cupertino code in the example project.
-
 ## Known Issues
 
 ### Animations
@@ -195,9 +187,6 @@ void initState() {
 
 #### Dialogs
 There is a known issue with opening dialogs where the suggestions box will sometimes appear too small. This is a timing issue caused by the animations described above. Currently, `showDialog` has a duration of 150 ms for the animations. TypeAheadField has a delay of 170 ms to compensate for this. Until the end of the animation can be properly detected and fixed using the solution above, this temporary fix will work most of the time. If the suggestions box is too small, closing and reopening the keyboard will usually fix the issue.
-
-### Cupertino
-The Cupertino classes in TypeAhead are still new. There are also differences in the Cupertino widgets vs the Material ones. Some behavior will not translate when moving between the two.
 
 ## Customizations
 TypeAhead widgets consist of a TextField and a suggestion box that shows
@@ -312,9 +301,9 @@ resize the suggestions box.
 Visit the [API Documentation](https://pub.dartlang.org/documentation/flutter_typeahead/latest/)
 
 ## Team:
-| [<img src="https://avatars.githubusercontent.com/u/16646600?v=3" width="100px;"/>](https://github.com/AbdulRahmanAlHamali)|[<img src="https://avatars.githubusercontent.com/u/2034925?v=3" width="100px;"/>](https://github.com/sjmcdowall)|[<img src="https://avatars.githubusercontent.com/u/5499214?v=3" width="100px;"/>](https://github.com/KaYBlitZ)|
-|---|---|---|
-|AbdulRahman AlHamali|S McDowall|Kenneth Liang|
+| [<img src="https://avatars.githubusercontent.com/u/16646600?v=3" width="100px;"/>](https://github.com/AbdulRahmanAlHamali)|[<img src="https://avatars.githubusercontent.com/u/2034925?v=3" width="100px;"/>](https://github.com/sjmcdowall)|[<img src="https://avatars.githubusercontent.com/u/5499214?v=3" width="100px;"/>](https://github.com/KaYBlitZ)|[<img src="https://avatars.githubusercontent.com/u/52014219?v=4" width="100px;"/>](https://github.com/BTonny)|
+|---|---|---|---|
+|AbdulRahman AlHamali|S McDowall|Kenneth Liang|Bawembye Tonny|
 
 ## Shout out to the contributors!
 This project is the result of the collective effort of contributors who participated effectively by submitting pull requests, reporting issues, and answering questions. Thank you for your proactiveness, and we hope flutter_typeahead made your lifes at least a little easier!

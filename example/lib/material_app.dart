@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
-
 import 'package:example/data.dart';
+import 'package:example/scroll_example.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_typeahead_web/flutter_typeahead.dart';
 
 class MyMaterialApp extends StatelessWidget {
   @override
@@ -58,15 +58,15 @@ class NavigationExample extends StatelessWidget {
             suggestionsCallback: (pattern) async {
               return await BackendService.getSuggestions(pattern);
             },
-            itemBuilder: (context, suggestion) {
+            itemBuilder: (context, Map<String, String> suggestion) {
               return ListTile(
                 leading: Icon(Icons.shopping_cart),
-                title: Text(suggestion['name']),
+                title: Text(suggestion['name']!),
                 subtitle: Text('\$${suggestion['price']}'),
               );
             },
-            onSuggestionSelected: (suggestion) {
-              Navigator.of(context).push(MaterialPageRoute(
+            onSuggestionSelected: (Map<String, String> suggestion) {
+              Navigator.of(context).push<void>(MaterialPageRoute(
                   builder: (context) => ProductPage(product: suggestion)));
             },
           ),
@@ -85,7 +85,7 @@ class _FormExampleState extends State<FormExample> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _typeAheadController = TextEditingController();
 
-  String _selectedCity;
+  String? _selectedCity;
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +104,7 @@ class _FormExampleState extends State<FormExample> {
               suggestionsCallback: (pattern) {
                 return CitiesService.getSuggestions(pattern);
               },
-              itemBuilder: (context, suggestion) {
+              itemBuilder: (context, String suggestion) {
                 return ListTile(
                   title: Text(suggestion),
                 );
@@ -112,27 +112,27 @@ class _FormExampleState extends State<FormExample> {
               transitionBuilder: (context, suggestionsBox, controller) {
                 return suggestionsBox;
               },
-              onSuggestionSelected: (suggestion) {
+              onSuggestionSelected: (String suggestion) {
                 this._typeAheadController.text = suggestion;
               },
-              validator: (value) {
-                if (value.isEmpty) {
-                  return 'Please select a city';
-                }
-              },
+              validator: (value) =>
+                  value!.isEmpty ? 'Please select a city' : null,
               onSaved: (value) => this._selectedCity = value,
             ),
             SizedBox(
               height: 10.0,
             ),
-            RaisedButton(
+            ElevatedButton(
               child: Text('Submit'),
               onPressed: () {
-                if (this._formKey.currentState.validate()) {
-                  this._formKey.currentState.save();
-                  Scaffold.of(context).showSnackBar(SnackBar(
+                if (this._formKey.currentState!.validate()) {
+                  this._formKey.currentState!.save();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
                       content:
-                      Text('Your Favorite City is ${this._selectedCity}')));
+                          Text('Your Favorite City is ${this._selectedCity}'),
+                    ),
+                  );
                 }
               },
             )
@@ -143,49 +143,10 @@ class _FormExampleState extends State<FormExample> {
   }
 }
 
-class ScrollExample extends StatelessWidget {
-  final List<String> items = List.generate(5, (index) => "Item $index");
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView(children: [
-      Center(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text("Suggestion box will resize when scrolling"),
-          )),
-      SizedBox(height: 200),
-      TypeAheadField<String>(
-        getImmediateSuggestions: true,
-        textFieldConfiguration: TextFieldConfiguration(
-          decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              hintText: 'What are you looking for?'),
-        ),
-        suggestionsCallback: (String pattern) async {
-          return items
-              .where((item) =>
-              item.toLowerCase().startsWith(pattern.toLowerCase()))
-              .toList();
-        },
-        itemBuilder: (context, String suggestion) {
-          return ListTile(
-            title: Text(suggestion),
-          );
-        },
-        onSuggestionSelected: (String suggestion) {
-          print("Suggestion selected");
-        },
-      ),
-      SizedBox(height: 500),
-    ]);
-  }
-}
-
 class ProductPage extends StatelessWidget {
-  final Map<String, dynamic> product;
+  final Map<String, String> product;
 
-  ProductPage({this.product});
+  ProductPage({required this.product});
 
   @override
   Widget build(BuildContext context) {
@@ -195,12 +156,12 @@ class ProductPage extends StatelessWidget {
         child: Column(
           children: [
             Text(
-              this.product['name'],
-              style: Theme.of(context).textTheme.headline,
+              this.product['name']!,
+              style: Theme.of(context).textTheme.headline5,
             ),
             Text(
-              this.product['price'].toString() + ' USD',
-              style: Theme.of(context).textTheme.subhead,
+              this.product['price']! + ' USD',
+              style: Theme.of(context).textTheme.subtitle1,
             )
           ],
         ),

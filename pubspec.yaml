@@ -1,23 +1,19 @@
-name: flutter_typeahead
-version: 1.8.0
+name: flutter_typeahead_web
+version: 2.0.0
 
 description: A highly customizable typeahead (autocomplete) text input field for Flutter
 homepage: https://github.com/AbdulRahmanAlHamali/flutter_typeahead
-authors:
-  - AbdulRahman AlHamali <a.alhamali93@gmail.com>
-  - Kenneth Liang <kennethliang0@gmail.com>
-  - Steven McDowall <sjm@hawoods.org>
 
 dependencies:
   flutter:
     sdk: flutter
-  flutter_keyboard_visibility: ^0.7.0
+  flutter_keyboard_visibility: ^5.3.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 environment:
-  sdk: '>=1.19.0 <3.0.0'
+  sdk: '>=2.12.0 <3.0.0'
 
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec
